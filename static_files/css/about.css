@@ -1,0 +1,35 @@
+@charset "utf-8";
+.about-banner {
+    height: 160px;
+    width: 231px;
+    margin: 50px;
+    text-align: center;
+    overflow: hidden;
+    line-height: 30px;
+    text-shadow: #fff 1px 1px 1px;
+    background: url(../img/1.jpg);
+    color: #0333;
+    font-size: 10px;
+}
+
+.about-banner > p{
+    color: red;
+    font-size: 20px;
+}
+/*pages*/
+.pages { background: rgba(255,255,255,.5); padding: 30px; margin: 20px 10px; border-radius: 3px; }
+.page_title { font-size: 24px; text-indent: 1em; border-bottom: #c3dae0 1px solid; padding-bottom: 20px; }
+.content { font-size: 16px; line-height: 32px; word-break: break-all; }
+.content p { margin: 20px 0; text-indent: 2em; }
+.content ul, .content ol { margin: 20px 0 20px 35px; }
+.content ul li, .content ol li { margin-top: 3px; line-height: 30px; }
+.content ul li { list-style-type: disc; }
+.content ol li { list-style-type: decimal; }
+.content h2, .content h3, .content h4, .content h5, .content h6 { position: relative; padding-left: 14px; font-size: 16px; margin: 20px 0; text-indent: 1em; }
+.content img { max-width: 100% !important; width: auto !important; height: auto !important; margin: 10px auto; }
+.content video { height: auto !important; display: block; margin: auto; max-width: 100% !important; }
+.content table { max-width: 100%; border-width: 1px; border-color: #666; border-collapse: collapse; font-size: 15px; line-height: 26px; }
+.content table th { border-width: 1px; padding: 4px 8px; border-style: solid; border-color: #666; background-color: #dedede; }
+.content table td { border-width: 1px; padding: 4px 8px; border-style: solid; border-color: #666; background-color: #ffffff; }
+span.marker { background: yellow; }
+.content audio {border: #badde3 1px solid; border-radius: 30px; margin: 30px 0;display: block;}

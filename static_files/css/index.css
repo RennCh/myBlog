@@ -1,0 +1,73 @@
+@charset "gb2312";
+/* blog */
+
+.blog {
+    margin: 30px;
+    overflow: hidden;
+}
+
+.article-description {
+    /*cursor:hand;*/
+    line-height: 24px;
+    font-family: "YaHei Consolas Hybrid", Consolas, "Î¢ÈíÑÅºÚ", "Meiryo UI", "Malgun Gothic", "Segoe UI", "Trebuchet MS", Helvetica, "Monaco", courier, monospace;
+    color: #666;
+}
+
+.blog figure ul {
+    overflow: hidden;
+    height: 160px;
+    margin-bottom: 20px;
+}
+
+@media (min-width: 2200px) {
+    .statstic-bar {
+        display: block;
+    }
+}
+
+@media (min-width: 2200px) {
+    .statstic-bar {
+        display: block;
+    }
+}
+
+.publish-date {
+    color: rgba(52, 73, 94, 0.54);
+    font-size: 1px;
+}
+.xxx{
+    font-size: 20px;
+    border: 10px solid red;
+}
+
+.article-list {
+    padding: 0;
+    list-style: none;
+    position: relative;
+}
+
+.article-list > li {
+    margin-bottom: 30px;
+    padding: 16px;
+    padding-top: 1em;
+    position: relative;
+    border-radius: 8px;
+    height: 200px;
+    background: rgba(215, 215, 215, 0.3);
+    border: 1px solid rgba(215, 215, 215, 0.3);
+}
+
+.article-list  h2 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    font-size: 16px;
+    color: rgba(52, 73, 94, 0.94);
+    font-weight: bolder;
+}
+.article-list  h2 > a {
+}
+
+.article-list  h2 > a:hover {
+    border-bottom: 1px solid rgba(52, 73, 94, 0.94);
+    cursor: hand;
+}

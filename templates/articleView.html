@@ -1,0 +1,208 @@
+{% extends "home.html" %}
+{% load static %}
+
+{% block mycss %}
+    {{ block.super }}
+    <link  href="{% static 'css/articleView.css' %}" rel="stylesheet" charset="UTF-8" >
+    <link  href="{% static 'css/program.css' %}" rel="stylesheet" charset="UTF-8" >
+    <script src="{% static 'js/base.js' %}"></script>
+{% endblock mycss %}
+
+{% block login %}
+    {% if user.is_authenticated %}
+        <div style="float:right">
+            <li class="dropdown" style="list-style-type:none">
+                <a style="cursor:hand;color: rgba(212,58,58,0.73);list-style-type:none;font-size: 20px;" class="dropdown-toggle" data-toggle="dropdown" role="button" ><img src="{% static "img/admin.png" %}" title="{{ user.username }}"></a>
+                <ul class="dropdown-menu">
+                    <li><a href="{% url "personal:personal" %}">个人中心</a></li>
+                    <li><a href="{% url "login:out" %}">退出登录</a></li>
+                </ul>
+            </li>
+        </div>
+    {% else %}
+        <div style="text-align:center;line-height: 28px;width:100px;height:30px;float:right;border: 0.5px ridge rgba(20,124,203,0.85);"><a href="{% url "login:Login" %}" style="color: rgba(20,89,210,0.68);font-size: 16px"><b>登录/注册</b></a></div>
+    {% endif %}
+{% endblock login %}
+
+{% block readNum %}
+{#    <div id="container" style="width: 150px;height: 200px"></div>#}
+{#    <script>#}
+{#                // 图表配置#}
+{#                var options = {#}
+{#                    chart: {type: 'line'},#}
+{#                    title: {text: null},#}
+{#                    xAxis: {categories: {{ dates|safe }},#}
+{#                            tickmarkPlacement:'on',},#}
+{#                    yAxis: {title: {text: null }, labels:{enabled:false},},#}
+{#                    series: [{                              // 数据列#}
+{#                        name: '阅读量',                        // 数据列名#}
+{#                        data: {{ read_nums }}                    // 数据#}
+{#                    }],#}
+{#                    plotOptions:{#}
+{#                        line:{#}
+{#                            dataLabels:{#}
+{#                                enabled:true#}
+{#                            }#}
+{#                        }#}
+{#                    },#}
+{#                    legend:{enabled:false},#}
+{#                    credits:{enabled:false}#}
+{#                };#}
+{#                // 图表初始化函数#}
+{#                var chart = Highcharts.chart('container', options);#}
+{#</script>#}
+{% endblock readNum %}
+
+{% block content %}
+    <div class="blogs">
+        {% block contentCategory %}
+        {% endblock contentCategory %}
+        {% if page_obj %}
+            <ul>
+                {% for article in page_obj %}
+                    <li class="blogs_list" target="_blank" style="background: rgba(51,51,51,0.06)">
+                        <a href="{% url 'homepage:content' article.id %}">
+                            <em>{{ article.category }}</em>
+{#                            {% if article.category_id == 1 %}#}
+{#                                <i><img src="{% static 'img/python.png' %}"></i>#}
+{#                            {% elif article.category_id == 2 %}#}
+{#                                <i><img src="{% static 'img/django.png' %}"></i>#}
+{#                            {% else %}#}
+{#                                <i><img src="{% static 'img/mysql.png' %}"></i>#}
+{#                            {% endif %}#}
+                            <i><img src="{{ article.category.avatar.url }}" alt="avatar" style="max-width:100%;"></i>
+                            <h2 style="color: #333333">{{ article.title }}</h2>
+{#                             <span style="font-size:15px;color: #333333">{{ article.title }}</span>#}
+{#                                {% for tag in article.tag.all %}#}
+{#                                <span style="font-size: 8px" class="label label-default">{{ tag }}</span>#}
+{#                                {% endfor %}#}
+                            <p>{{ article.abstract }}</p>
+                            <div class="blogs_base">
+                                <span class="blogs_time" title="修改时间">{{ article.alter_time }}</span>
+                                 <span class="blogs_onclick" title="浏览量">{{ article.get_read_num }}</span>
+                            </div>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            {% if is_paginated %}    {# 分页 #}
+                <ul class="pagination" style="justify-content: center;flex-direction: row;display: flex;">
+                     {% if page_obj.has_previous %}
+                           <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">上一页</a></li>
+                     {% else %}
+                           <li class="page-item disabled"><span class="page-link">上一页</span></li>
+                     {% endif %}
+
+                    {% for i in page_obj.paginator.page_range %}
+                        {% if page_obj.number == i %}
+                                <li class="page-item active"><span class="page-link"> {{ i }} <span class="sr-only">(current)</span></span></li>
+                        {% else %}
+                                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">下一页</a></li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">下一页</span></li>
+                {% endif %}
+
+                </ul>
+            {% endif %}
+
+        {% endif %}
+
+    </div>
+
+{% endblock content %}
+
+{% block nav_bar %}
+    <aside class="rbox" style="float:right;display:block;">
+        <div class="tagsclous" style="background:rgba(51,51,51,0.06) ">
+            <h4 class="h_title" style="color: rgba(187,102,34,0.85)"><b>标签</b></h4>
+{#                <ul>#}
+{#                    {% for n in tags %}#}
+{#                      <a href="{% url "homepage:tagList" %}?tag={{ n }}" >{{ n }}</a>#}
+{#                    {% endfor %}#}
+{#                </ul>#}
+                <div id="wrap">
+                    {% for n in tags %}
+                      <a href="{% url "homepage:tagList" %}?tag={{ n }}" ><h6 style="color: #f8f8f8">{{ n }}</h6></a>
+                    {% endfor %}
+                </div>
+        </div>
+        <div class="tong_ji" style="background:rgba(51,51,51,0.06) ">
+            <h3 class="h_title">站点信息</h3>
+            <ol class="person">
+                <li><a style="color: #333333">{{ article_count }}<span>文章</span></a></li>
+                <li><a style="color: #333333">{{ log_count }}<span>心情</span></a></li>
+            </ol>
+            <ul></ul>
+        </div>
+
+         <div id="container" style="width: 300px;height: 300px"></div>
+    <script>
+                // 图表配置
+                var options = {
+                    chart: {type: 'spline'},
+                    title: {text: null},
+                    xAxis: {categories: {{ dates|safe }},
+                            tickmarkPlacement:'on',},
+                    yAxis: {title: {text: '阅读量' },gridLineDashStyle:'Dash'},
+                    series: [{                              // 数据列
+                        name: '阅读量',                        // 数据列名
+                        data: {{ read_nums }}                    // 数据
+                    }],
+                  colors: ['rgba(51,153,255,0.82)'],
+                  plotOptions:{
+                        line:{
+                            dataLabels:{
+                                enabled:true
+                            }
+                        }
+                  },
+                  legend:{enabled:false},
+                  credits:{enabled:false}
+                };
+                // 图表初始化函数
+                var chart = Highcharts.chart('container', options);
+
+                $(document).ready(function(){
+                          var obj=$("#wrap a");//获取a标签中的数据
+                          function rand(num){
+                          //parseInt();将字符串转为整数
+                          //Math.random()；生成随机数
+                          return parseInt(Math.random()*num+1);
+                          }
+
+                          function randomcolor(){
+                            var str=Math.ceil(Math.random()*16777215).toString(16);
+                            if(str.length<6){
+                            str="0"+str;
+                            }
+                            return str;
+                          }
+                          function getRandom(min, max) {
+                                return Math.floor(Math.random() * (max - min + 1)) + min;
+                          }
+
+                          function getRandomColor() {
+                              return 'rgb(' + getRandom(0, 255) + ',' + getRandom(0, 255) + ',' + getRandom(0, 255) + ')'
+                          }
+
+                          for(len=obj.length,i=len;i--;){
+                            {#obj[i].style.left=rand(10)+"px";//标签左右间距#}
+                            {#obj[i].style.top=rand(10)+"px";//标签上下间距#}
+                            obj[i].className="color"+rand(5);
+                            obj[i].style.zIndex=rand(5);//设置元素的堆叠顺序
+                            obj[i].style.fontSize=rand(5)+10+"px";//随机字体大小这里是18-23
+                            {#obj[i].style.color='#'+randomcolor();//字体颜色#}
+                            {#obj[i].style.padding=rand(10)+"px";#}
+                            obj[i].style.backgroundColor=getRandomColor();
+                          }
+                });
+</script>
+
+    </aside>
+{% endblock nav_bar %}

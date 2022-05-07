@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link  href="{% static 'css/login.css' %}" rel="stylesheet" charset="UTF-8" >
+    <title>用户登录</title>
+</head>
+<body>
+    <div class="div">
+        <div class="sign-div" style="height: 320px;">
+            <form class="" action="{% url "login:Login" %}" method="POST">
+                <h1>登录</h1>
+                    {% for field in login_form %}
+                           {{ field }}
+                    {% endfor %}
+                {% block error_login %}
+                {% endblock error_login %}
+                <input class="input-btn" type="submit" style="margin-top: 10px" value="登录">
+{#                <a href="{% url "login:register" %}" style="float: bottom">注册</a>#}
+            </form>
+        </div>
+    </div>
+</body>
+</html>

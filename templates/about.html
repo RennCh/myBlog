@@ -1,0 +1,44 @@
+{% extends "articleContent.html" %}
+{% load static %}
+
+{% block mycss %}
+    {{ block.super }}
+    <link  href="{% static 'css/about.css' %}" rel="stylesheet" charset="UTF-8">
+    <script src="{% static 'js/scrollReveal.js' %}"></script>
+{% endblock mycss %}
+
+{% block content %}
+    <div class="blogs">
+        <div class="weizhi">
+            <ol class="breadcrumb" STYLE="background-color: rgba(248,248,248,0)">
+                您当前的位置:
+            <li><a href="{% url 'homepage:FirstPage'%}" style="color: #333333">首页</a></li>
+{#            &nbsp;>&nbsp;#}
+            <li><a href="{% url 'homepage:about'%}" style="color: #333333">关于我</a></li>
+            </ol>
+        </div>
+
+
+        <div class="pages">
+            <h1 class="page_title">关于我</h1>
+            <div class="content">
+                <p>
+                    小R，90后，学生。性格的话可以看看天秤座（虽然只有很少部分吻合）。建个人博客的初心是想着记录自己的生活和学习，记录着自己的一路风和雨，将来回头看看以前的自己。
+                </p>
+                <p>个人博客以前的一个暑假开了个头，但由于其他原因，当就搁置了。现在想着将它实现出来。</p>
+                <p style="text-align:right"><spqn>——小R</spqn></p>
+                <p style="text-align:right"><spqn>写于: 2022年04月08日</spqn></p>
+            </div>
+
+        </div>
+    </div>
+{% endblock content %}
+
+{% block nav_bar %}
+ <div class="about-banner" style="background: ">
+                <br><br>
+                <p data-scroll-reveal="enter top over 2s" data-scroll-reveal-id="3" style="-webkit-transform: translatey(0);transform: translatey(0);opacity: 1;-webkit-transition: -webkit-transform 2s ease-in-out 0s,  opacity 2s ease-in-out 0s;transition: transform 2s ease-in-out 0s, opacity 2s ease-in-out 0s;-webkit-perspective: 1000;-webkit-backface-visibility: hidden;" data-scroll-reveal-initialized="true">“你我恍然相逢的刹那，</p>
+                <p data-scroll-reveal="enter left over 2s after 1s" data-scroll-reveal-id="4" style="-webkit-transform: translatex(0);transform: translatex(0);opacity: 1;-webkit-transition: -webkit-transform 2s ease-in-out 1s,  opacity 2s ease-in-out 1s;transition: transform 2s ease-in-out 1s, opacity 2s ease-in-out 1s;-webkit-perspective: 1000;-webkit-backface-visibility: hidden;" data-scroll-reveal-initialized="true">我看见了岁月的慈悲。”</p>
+{#                <p data-scroll-reveal="enter bottom over 2s after 2s" data-scroll-reveal-id="5" style="-webkit-transform: translatey(0);transform: translatey(0);opacity: 1;-webkit-transition: -webkit-transform 2s ease-in-out 2s,  opacity 2s ease-in-out 2s;transition: transform 2s ease-in-out 2s, opacity 2s ease-in-out 2s;-webkit-perspective: 1000;-webkit-backface-visibility: hidden;" data-scroll-reveal-initialized="true">无论下多久的雨，最后都会有彩虹；无论你多么悲伤，要相信幸福在前方等候.</p>#}
+ </div>
+{% endblock nav_bar %}

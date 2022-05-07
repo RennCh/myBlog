@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link  href="{% static 'css/register.css' %}" rel="stylesheet" charset="UTF-8" >
+    <title>用户注册</title>
+</head>
+<body>
+<div class="div">
+    <div class="rg_left">
+        <p>新用户注册</p>
+        <p>USER REGISTER</p>
+    </div>
+    <div class="rg_center">
+    <!-- 定义表单 form -->
+    <form action="{% url "login:register" %}" method="post">
+        <!-- 定义一个表格 -->
+        <table>
+            <!-- 表格第一行有两个单元格：用户名 + 输入用户名信息区域 -->
+            {% for field in register_form %}
+            <tr>
+                <!-- 定义一个标签：用户名 -->
+                <td class="td_left"><label for="{{ field.id_for_label }}">{{ field.label }}</label></td>
+                <!-- 定义输入用户名信息的框框 -->
+                <td class="td_right">{{ field }} <span style="color: #c7254e">{{ field.errors.as_text }}</span></td>
+            </tr>
+            <!-- 表格第八行有一个单元格：注册按钮 -->
+            {% endfor %}
+            <tr>
+                <!-- 定义一个提交按钮 -->
+                <td>{{ register_form.non_field_errors }}</td>
+                <td class="td_right" colspan="2" align="center"><input type="submit" id="btn_sub" value="注册"></td>
+                <td style="width:200px"><p class="rg_right " style="color: rgba(37,129,199,0.71);">已有账号？<a href="{% url "login:Login" %}" >立即登录</a></p></td>
+            </tr>
+        </table>
+    </form>
+    </div>
+    <div class="rg_right ">
+{#    <p>已有账号？<a href="{% url "login:Login" %}">立即登录</a></p>#}
+    </div>
+</div>
+</body>
+</html>

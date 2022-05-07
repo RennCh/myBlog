@@ -1,0 +1,58 @@
+@charset "utf-8";
+.blogs { width: 70%; float: left; margin: 20px 0; }
+.blogs_list { overflow: hidden; position: relative; transition: all .8s; padding: 15px; background: rgba(255,255,255,.8); margin: 0 0 20px 10px; border-radius: 3px; }
+.blogs_list a { display: block; overflow: hidden; }
+.blogs_list i { display: block; width: 210px; height: 158px; background: #ccc; overflow: hidden; float: left; margin-right: 20px; border-radius: 3px; }
+.blogs_list i img { width: 100%; min-height: 100%; transition: all .6s; }
+.blogs_list em {
+    display: block;
+    position: absolute;
+    background: rgba(0,0,0,.5);
+    z-index: 9;
+    color: #fff;
+    padding: 3px 8px;
+    margin: 5px;
+    border-radius: 3px;
+    font-style: normal;
+    font-size: 14px;
+}
+.blogs_list h2 { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; margin: 10px 0; line-height: 28px; font-size: 18px; }
+.blogs_list p { color: #888; font-size: 14px; line-height: 24px; word-break: break-all; overflow: hidden; text-overflow: ellipsis; -webkit-box-orient: vertical; display: -webkit-box; -webkit-line-clamp: 2; }
+.blogs_list:hover { background: rgba(255,255,255,1); }
+.blogs_list h2:hover { color: #000; }
+.blogs_list:hover img { transform: scale(1.1); }
+.blogs_base { color: #999; font-size: 14px; margin: 30px 0 0 0; line-height: 24px; }
+.blogs_base a { color: #999; }
+.blogs_base span { margin-right: 20px; padding-left: 24px; line-height: 24px; display: block; float: right; }
+span.blogs_time { background: url(../img/time.png) no-repeat left center; background-size: 20px; }
+span.blogs_onclick { background: url(../img/view.png) no-repeat left center; background-size: 20px; }
+
+.rbox { float: right; width: 28%; }
+
+.tagsclous { border-radius: 3px; background: rgba(255,255,255,.8); padding: 5px 20px 0; margin: 20px 0; overflow: hidden; }
+.tagsclous ul { padding: 10px 0 20px 0; overflow: hidden; position: relative; font-size: 14px; }
+.tagsclous a { display: inline-block; float: left; background: #fff; line-height: 34px; text-align: center; position: relative; margin: 4px 5px; padding: 0 14px; border-radius: 3px;  }
+.tagsclous a:hover { background: #2c90c5; color: #fff }
+.h_title { font-size: 18px; padding-top: 20px; margin-bottom: 10px; }
+
+.h_title ul:nth-child(1) {
+    background: #FE5187
+}
+.rnav ul:nth-child(2) {
+    background: #339967
+}
+
+.tong_ji { border-radius: 3px; background: rgba(255,255,255,.8); padding: 5px 20px 20px; margin: 20px 0; overflow: hidden; }
+.person {margin: 20px 0 10px 0;background: rgba(255,255,255,.5);padding: 20px;border-radius: 3px;overflow: hidden;}
+.person li { display: inline-block; padding: 0 24px; font-size: 18px; font-weight: bold; text-align: center; }
+.person li:nth-child(2) { border-left: #ccc 1px solid; border-right: #ccc 1px solid }
+.person li a:hover { text-decoration: none; color: rgba(32, 69, 201, 0.91)
+}
+.person li span { display: block; font-size: 14px; font-weight: normal; color: #999 }
+.tong_ji ul { padding: 10px 0 20px 0; }
+.tong_ji ul li { margin-bottom: 10px }
+.tong_ji ul li a { color: #56a4d2; }
+.tong_ji ul li a:hover { text-decoration: underline; }
+
+.icon-top { background: url(../img/is_up.png) no-repeat center #2c90c5; background-size: 24px; width: 48px; height: 48px; position: fixed; left: 40px; bottom: 10%; transition: all 0.3s; z-index: 9999999; border-radius: 100%; opacity: 0; }
+.cd-is-visible { opacity: 1; }

@@ -1,0 +1,137 @@
+{% extends "articleContent.html" %}
+{% load static %}
+{% load date_filter %}
+
+{% block mycss %}
+    <link  href="{% static 'css/informalEssay.css' %}" rel="stylesheet" charset="UTF-8">
+    {{ block.super }}
+{% endblock mycss %}
+
+{% block content %}
+    <div class="blogs">
+
+        <div class="weizhi">
+            <ol class="breadcrumb" STYLE="background-color: rgba(248,248,248,0)">
+                您当前的位置:
+            <li><a href="{% url 'homepage:FirstPage'%}" style="color: #333333">首页</a></li>
+{#            &nbsp;>&nbsp;#}
+            <li><a href="{% url 'tittleTattle:writeInformal' %}" style="color: #333333">随笔杂谈</a></li>
+            </ol>
+        </div>
+
+        <div class="timeline-small">
+            <div class="timeline-small-body">
+                <ul>
+                            {% if articles1 %}
+                                    <li>
+                                            <div class="bullet pink"></div>
+                                            <div class="date" style='font: 20px "微软雅黑"'><span><b>{{ articles1.0.create_time|date:"Y" }}</b></span></div>
+                                    </li>
+                                    {% for article in articles1 %}
+                                        <li>
+                                            <div class="bullet orange"></div>
+                                            <div class="date">{{ article.create_time|date:"m-d" }}</div>
+                                            <div class="desc">
+                                                 <h3>{{ article.content|safe }}</h3>
+
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                            {% else %}
+                            {% endif %}
+
+                            {% if articles2 %}
+                                    <li>
+                                            <div class="bullet pink"></div>
+                                            <div class="date" style='font: 20px "微软雅黑"'><span><b>{{ articles2.0.create_time|date:"Y" }}</b></span></div>
+                                    </li>
+                                    {% for article in articles2 %}
+                                        <li>
+                                            <div class="bullet green"></div>
+                                            <div class="date">{{ article.create_time|date:"m-d" }}</div>
+                                            <div class="desc">
+                                               <h3>{{ article.content|safe }}</h3>
+
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                            {% else %}
+                            {% endif %}
+
+                            {% if articles3 %}
+                                    <li>
+                                            <div class="bullet pink"></div>
+                                            <div class="date" style='font: 20px "微软雅黑"'><span><b>{{ articles3.0.create_time|date:"Y" }}</b></span></div>
+                                    </li>
+                                    {% for article in articles3 %}
+                                        <li>
+                                            <div class="bullet blue"></div>
+                                            <div class="date">{{ article.create_time|date:"m-d" }}</div>
+                                            <div class="desc">
+                                               <h3>{{ article.content|safe }}</h3>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                            {% else %}
+                            {% endif %}
+
+                            {% if articles4 %}
+                                    <li>
+                                            <div class="bullet pink"></div>
+                                            <div class="date" style='font: 20px "微软雅黑"'><span><b>{{ articles4.0.create_time|date:"Y" }}</b></span></div>
+                                    </li>
+                                    {% for article in articles4 %}
+                                        <li>
+                                            <div class="bullet blue"></div>
+                                            <div class="date">{{ article.create_time|date:"m-d" }}</div>
+                                            <div class="desc">
+                                               <a> <h3>{{ article.title }}</h3>
+    {#                                            <h4>{{ article.content }}</h4>#}
+                                               </a>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                            {% else %}
+                            {% endif %}
+{#                                {% if article.year == current_year|date_sub1 %}#}
+{#                                        <li>#}
+{#                                            <div class="bullet pink"></div>#}
+{#                                            <div class="date" style='font: 20px "微软雅黑"'><span><b>{{ article.create_time|date:"Y" }}</b></span></div>#}
+{#                                        </li>#}
+{#                                    <li>#}
+{#                                        <div class="bullet orange"></div>#}
+{#                                        <div class="date">{{ article.create_time|date:"m-d" }}</div>#}
+{#                                        <div class="desc">#}
+{#                                           <a> <h3>{{ article.title }}</h3>#}
+    {#                                        <h4>{{ article.abstract }}</h4>#}
+{#                                           </a>#}
+{#                                        </div>#}
+{#                                    </li>#}
+{#                            {% endif %}#}
+{#                            {% if article.year == current_year|date_sub2 %}#}
+{#                                        <li>#}
+{#                                            <div class="bullet pink"></div>#}
+{#                                            <div class="date" style='font: 20px "微软雅黑"'><span><b>{{ article.create_time|date:"Y" }}</b></span></div>#}
+{#                                        </li>#}
+{#                                    <li>#}
+{#                                        <div class="bullet orange"></div>#}
+{#                                        <div class="date">{{ article.create_time|date:"m-d" }}</div>#}
+{#                                        <div class="desc">#}
+{#                                           <a> <h3>{{ article.title }}</h3>#}
+    {#                                        <h4>{{ article.abstract }}</h4>#}
+{#                                           </a>#}
+{#                                        </div>#}
+{#                                    </li>#}
+{#                            {% endif %}#}
+
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+{% endblock content %}
+
+{% block nav_bar %}
+
+{% endblock nav_bar %}

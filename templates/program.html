@@ -1,0 +1,80 @@
+{% extends "articleView.html" %}
+{% load static %}
+
+{% block mycss %}
+    {{ block.super }}
+    <link  href="{% static 'css/program.css' %}" rel="stylesheet" charset="UTF-8" >
+{#    <script src="{% static 'js/base.js' %}"></script>#}
+{% endblock mycss %}
+
+{% block readNum %}
+{% endblock readNum %}
+
+{% block contentCategory %}
+
+    <div class="weizhi">
+            <ol class="breadcrumb" STYLE="background-color: rgba(248,248,248,0)">
+                您当前的位置:
+            <li><a href="{% url 'homepage:FirstPage'%}" style="color: #333333">首页</a></li>
+{#            &nbsp;>&nbsp;#}
+            <li><a href="{% url 'homepage:program'%}" style="color: #333333">程序设计</a></li>
+            </ol>
+    </div>
+
+    <div class="rnav">
+            {% for n in category %}
+            <li>
+                <a id="category-btn" href="{% url 'homepage:programCategory' n.name %}">{{ n.name }} ({{ n.article_count }})</a>
+            </li>
+            {% endfor %}
+
+    </div>
+{% endblock contentCategory %}
+
+{% block nav_bar %}
+   <aside class="rbox" style="float:right;display:block;">
+        <div class="tagsclous" style="background:rgba(51,51,51,0.06) ">
+            <h4 class="h_title" style="color: rgba(187,102,34,0.85)"><b>标签</b></h4>
+                <div id="wrap">
+                    {% for n in tags %}
+                      <a href="{% url "homepage:tagList" %}?tag={{ n }}" ><h6 style="color: #f8f8f8">{{ n }}</h6></a>
+                    {% endfor %}
+                </div>
+        </div>
+   </aside>
+
+    <script>
+        $(document).ready(function(){
+                          var obj=$("#wrap a");//获取a标签中的数据
+                          function rand(num){
+                          return parseInt(Math.random()*num+1);
+                          }
+
+                          function randomcolor(){
+                            var str=Math.ceil(Math.random()*16777215).toString(16);
+                            if(str.length<6){
+                            str="0"+str;
+                            }
+                            return str;
+                          }
+                          function getRandom(min, max) {
+                                return Math.floor(Math.random() * (max - min + 1)) + min;
+                          }
+
+                          function getRandomColor() {
+                              return 'rgb(' + getRandom(0, 255) + ',' + getRandom(0, 255) + ',' + getRandom(0, 255) + ')'
+                          }
+
+                          for(len=obj.length,i=len;i--;){
+                            {#obj[i].style.left=rand(10)+"px";//标签左右间距#}
+                            {#obj[i].style.top=rand(10)+"px";//标签上下间距#}
+                            obj[i].className="color"+rand(5);
+                            obj[i].style.zIndex=rand(5);//设置元素的堆叠顺序
+                            obj[i].style.fontSize=rand(5)+10+"px";//随机字体大小这里是18-23
+                            {#obj[i].style.color='#'+randomcolor();//字体颜色#}
+                            {#obj[i].style.padding=rand(10)+"px";#}
+                            obj[i].style.backgroundColor=getRandomColor();
+                          }
+                });
+    </script>
+{% endblock nav_bar %}

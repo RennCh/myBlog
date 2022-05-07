@@ -1,0 +1,287 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    <script type="text/javascript" src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+{#    <link href="{% static "css/personal.css" %}" rel="stylesheet" type="text/css">#}
+    <link href="{% static "css/kico.css" %}" rel="stylesheet" type="text/css">
+    <link href="{% static "css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
+    <link href="{% static "css/paul.css" %}" rel="stylesheet" type="text/css">
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+</head>
+<body>
+
+
+<aside class="sidebar">
+    <div class="avatar">
+        <img src="{% static "img/luffy.jpg" %}" title="{{ request.user }}">
+    </div>
+    <nav class="nav">
+        <a href="http://127.0.0.1:8000/homepage/">首页</a>
+        <a href="http://127.0.0.1:8000/personal/#info">个人资料</a>
+        <a href="http://127.0.0.1:8000/personal/#skills">文章发表</a>
+        <a href="http://127.0.0.1:8000/personal/#works">文章列表</a>
+        <a href="http://127.0.0.1:8000/personal/#story">心情说说</a>
+        <a href="http://127.0.0.1:8000/personal/#logList">心情说说列表</a>
+    </nav>
+</aside>
+<main>
+    <section id="info" class="info" style="background: rgba(203,152,0,0.68)">
+        <div class="wrap">
+            <h2 class="title">个人资料</h2>
+            <div class="row">
+                <div class="col-l-4">
+                    <p>用户名：{{ user.username }}</p>
+                    <p>性别：未知</p>
+                    <p>年龄：未知</p>
+                    <p>英文名：未知</p>
+                    <p>学历：未知</p>
+                </div>
+                <div class="col-l-4">
+                    <p>邮箱：{{ user.email }}</p>
+                    <p>GitHub：<a href="#">未知</a></p>
+                    <p>博客：<a href="#">未知</a></p>
+{#                    <p>邮箱：<a href="mailto:764012358@qq.com">764012358@qq.com</a></p>#}
+                </div>
+                <div class="col-l-4">
+                    <p>我有着与普通人一样的日常，没什么有趣且不平凡的经历；有着和普通人一样的缺点，没什么过人的优点长处；也有着和普通人一样的烦恼，会偶尔emo一下。但我有着和普通人不一样的生活态度！</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <h3 style="height:11px;border:none;border-top:5px ridge rgba(18,120,160,0.95);"></h3>
+    <section id="skills"  >
+    <div class="wrap">
+    <h2 class="title" >发表文章</h2>
+    <form enctype="multipart/form-data" id="article_form" action="{% url 'personal:personalArticle' %}"  method="POST"  style="overflow: hidden;" accept-charset="UTF-8" novalidate>
+        {% csrf_token %}
+        {% for field in articleDetail_form %}
+            <div class="form-group">
+                {{ field }}
+            </div>
+        {% endfor %}
+        <div class="form-group">
+{#                <input type="file" name="avatar1" accept="image/*" required id="id_avatar1">#}
+                <div id="message" style="display:none;color: #d43f3a"></div>
+                <input type="submit" style="float:right" class="btn btn-group" values="提交文章"  >
+        </div>
+    </form>
+    <h3 style="height:11px;border:none;border-top:5px ridge rgba(18,120,160,0.95);"></h3>
+    <form id="category_img" enctype="multipart/form-data" action="{% url 'personal:articleCategory' %}" method="post">
+        {% csrf_token %}
+        {% for field in articleCategoryForm %}
+            <div class="form-group">
+                {{ field }}
+            </div>
+        {% endfor %}
+        <input id="submit_img" type="submit" style="float:right" values="提交上传图片" >
+    </form>
+
+{#    <form enctype="multipart/form-data" id="articleImg_form" action="{% url 'personal:img' %}"  method="POST" >#}
+{#        <div class="form-group">#}
+{#            <input type="file" name="avatar" accept="image/*" required id="id_avatar">#}
+{#        </div>#}
+{#        <div class="form-group">#}
+{#                <div id="message" style="display:none;color: #d43f3a"></div>#}
+{#                <input type="submit" style="float:right"  values="提交图片"  >#}
+{#        </div>#}
+{#    </form>#}
+
+    </div>
+    </section>
+
+    <h3 style="height:11px;border:none;border-top:5px ridge rgba(18,120,160,0.95);"></h3>
+     <section id="works" style="background: #1fad83">
+        <div class="wrap">
+            <h2 class="title" id="articleCount" style="margin-left: 50px">已发表的文章({{ articleCount }})</h2>
+            <div class="row">
+                <div class="col-m-8">
+                    <ul class="timeline" id="article_list">
+                        {% for article in articleDetail %}
+                            <li id="li_{{ article.id }}">
+                                <a id="article_{{ article.id }}" style="color: #333333" href="{% url "personal:updatePersonal" article.id %}">{{ article.create_time }}---{{ article.title }}</a>
+                                <div onclick="deleteArticle({{ article.id }})" style="background:rgba(0,144,255,0.71);cursor: hand;font-size:10px;float: right;border: 0.5px ridge rgb(14,13,13);">删除</div>
+{#                                <div style="cursor: hand;float:right;font-size:10px;margin-right: 5em"><input  type="file" name="avatar" accept="image/*" required id="id_avatar"> <div style="float:right" onclick="submint_img({{ article.id }})">提交图片</div></div>#}
+                            </li>
+{#<a style="color: #333333" href="{% url "personal:deletePersonal" article.id %}">#}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+     </section>
+
+    <h3 style="height:11px;border:none;border-top:5px ridge rgba(18,120,160,0.95);"></h3>
+     <section id="story">
+     <div class="wrap">
+     <h2 class="title">发表心情说说</h2>
+        <form id="dailyLog_form" action="{% url "personal:personalLog" %}" method="POST"  style="overflow: hidden;">
+        {% for field in dailyLog_form %}
+            <div class="form-group" >
+                {{ field }}
+            </div>
+        {% endfor %}
+        <div class="form-group">
+                <div id="dailyLog_message" style="display:none;color: #d43f3a"></div>
+                <input type="submit" style="float:right" class="btn btn-primary" values="提交"  >
+        </div>
+    </form>
+     </div>
+    </section>
+
+    <h3 style="height:11px;border:none;border-top:5px ridge rgba(18,120,160,0.95);"></h3>
+    <section id="logList" style="background: #2F96B4">
+        <div class="wrap">
+            <h2 class="title" id="logCount">已发表的心情说说({{ dailyLogCount }})</h2>
+            <div class="row">
+                <div class="col-m-8">
+                    <ul class="timeline" id="log_list">
+                        {% for log in dailyLog %}
+                            <li id="li_{{ log.id }}">
+                                <p>{{ log.create_time }}<div onclick="deleteLog({{ log.id }})" style="cursor: hand;font-size:10px;float: right;border: 0.5px dashed rgb(14,13,13);">删除</div></p>
+                                {{ log.content|safe }}
+                            </li>
+{#<a style="color: #333333" href="{% url "personal:deletePersonal" article.id %}">#}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</main>
+
+<script>
+
+    $("#article_form").submit(function(){
+        CKEDITOR.instances['id_content'].updateElement();
+        $.ajax({
+            url:"{% url 'personal:personalArticle' %}",
+                type:"POST",
+                data:$("#article_form").serialize(),
+                cache:false,
+                success:function(data){
+                    console.log(data);
+                    if(data['status']=='success'){
+
+                        var html='<li'+ 'id="li_'+data["article_id"]+'"style="color: #333333">'+
+                                '<a /id="article_'+data["article_id"]+' style="/color: /#333333"'+'href='+'"{/%'+ 'url "personal:updatePersonal"'+ data["article_id"]+ '%}">'+data["create_time"]+'---'+data["article_title"]+'</a>'+
+                                '<div /onclick="deleteArticle('+data["article_id"]+')" style="cursor: hand;font-size:10px;float: right;border: 0.5px dashed rgb(14,13,13);">删除</div>'+
+                            '</li>';
+
+                       CKEDITOR.instances['id_content'].setData('');
+                       $('#category').val("");
+                       $('#title').val("");
+                       $('#abstract').val("");
+                       $('#message').text(data['message']);
+                       $('#message').show();
+                       $('#articleCount').text('已发表的文章('+ data['article_count']+')');
+                       $('#article_'+data['article_id']).text(data['article_title']);
+                       $('#article_list').prepend(html);
+                   }else{
+                       alter(data['message']);
+                   }
+                },
+                error:function(xhr){
+                    console.log(xhr);
+                }
+        });
+        return false
+    })
+
+    function reply(){
+
+            $('html,body').animate({scrollTop: $('#article_form').offset().top}, 100);
+        }
+
+    function deleteArticle(article_id){
+            $.ajax({
+               url: '{% url "personal:deletePersonal" %}',
+               type:'GET',
+               data:{
+                   article_id:article_id,
+                },
+               cache:false,
+               success:function (data){
+                   console.log(data)
+                   if(data['status']=='success'){
+                       CKEDITOR.instances['id_content'].setData('');
+                       $('#category').val("");
+                       $('#title').val("");
+                       $('#abstract').val("");
+                       $('#li_'+article_id).remove();
+                       $('#articleCount').text('已发表的文章('+ data['article_count']+')');
+                   }else{
+                       alter(data['message']);
+                   }
+               },
+               error:function (xhr){
+                   console.log(xhr)
+               }
+            });
+        }
+
+     $("#dailyLog_form").submit(function(){
+        CKEDITOR.instances['id_dailyLog'].updateElement();
+        $.ajax({
+            url:"{% url 'personal:personalLog' %}",
+                type:"POST",
+                data:$("#dailyLog_form").serialize(),
+                cache:false,
+                success:function(data){
+                    console.log(data);
+                    if(data['status']=='success'){
+                        var html='<li id="li_'+data["daily_log_id"]+'">'+
+                                '<p>'+data["daily_log_create_time"]+'<div onclick="deleteLog('+data["daily_log_id"]+')" style="cursor: hand;font-size:10px;float: right;border: 0.5px dashed rgb(14,13,13);">删除</div></p>'+
+                                data['daily_log_content']+
+                                '</li>';
+                       CKEDITOR.instances['id_dailyLog'].setData('');
+                       $('#dailyLog_message').text(data['message']);
+                       $('#dailyLog_message').show();
+                       $('#logCount').text('已发表的心情说说('+ data['daily_log_count']+')');
+                       $('#log_list').prepend(html);
+                   }else{
+                       alter(data['message']);
+                   }
+                },
+                error:function(xhr){
+                    console.log(xhr);
+                }
+        });
+        return false
+    })
+
+        function deleteLog(log_id){
+            $.ajax({
+               url: '{% url "personal:deleteLog" %}',
+               type:'GET',
+               data:{
+                   log_id:log_id,
+                },
+               cache:false,
+               success:function (data){
+                   console.log(data)
+                   if(data['status']=='success'){
+                       $('#li_'+log_id).remove();
+                       $('#logCount').text('已发表的心情说说('+ data['log_count']+')');
+                   }else{
+                       alter(data['message']);
+                   }
+               },
+               error:function (xhr){
+                   console.log(xhr)
+               }
+            });
+        }
+
+
+</script>
+
+</body>
+</html>

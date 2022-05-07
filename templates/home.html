@@ -1,0 +1,357 @@
+{% load static %}    {#  加载静态文件1 #}
+<link REL="SHORTCUT ICON" HREF="{% static "img/home.png" %}"/>
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" >
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="http://cdn.highcharts.com.cn/highcharts/highcharts.js"></script>
+{#    <script src="{% static 'js/base.js' %}"></script>#}
+{#    <link href="{% static 'css/base.css' %}" rel="stylesheet" >#}
+
+    {% block mycss %}
+    {% endblock %}
+
+    <title>
+        {% block title %}
+         我的博客-记录日常的个人网站
+    {% endblock %}
+    </title>
+
+    {% block meta %}
+    {% endblock %}
+
+    <link media="screen and (max-width: 580px)" href="{% static 'css/base-small-screen.css' %}" rel="stylesheet" charset="UTF-8" >
+    <link media="screen and (min-width: 580px) and (max-width: 1000px)" href="{% static 'css/base-big-screen.css'  %}" rel="stylesheet" charset="UTF-8">
+    <link media="screen and (min-width: 1000px)" href="{% static 'css/base-middle-screen.css' %}" rel="stylesheet" charset="UTF-8">
+    <link media="screen and (max-width: 580px)" href="{% static 'css/index-small-screen.css' %}" rel="stylesheet" charset="UTF-8">
+    <link media="screen and (min-width: 580px) and (max-width: 1000px)" href="{% static 'css/index-middle-screen.css' %}" rel="stylesheet" charset="UTF-8" >
+    <link media="screen and (min-width: 1000px)" href="{% static 'css/index-big-screen.css' %}" rel="stylesheet" charset="UTF-8">
+{#    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">    {#  加载静态文件2 #}
+    <link href="{% static 'css/toastr.min.css' %}" rel="stylesheet" charset="UTF-8">
+    <link href="{% static 'css/bootstrap.min.css' %}"  rel="stylesheet" charset="UTF-8">
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" charset="UTF-8">
+    <script src="{% static 'js/scrollReveal.js' %}"></script>
+    <script src="{% static 'js/toastr.min.js' %}"></script>
+
+    <SCRIPT>
+        $.ajaxSetup({
+            data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
+        })
+        function getWidth() {
+            var winWidth;
+            if(window.innerWidth) {
+                winWidth = window.innerWidth;
+            } else if((document.body) && (document.body.clientWidth)) {
+                winWidth = document.body.clientWidth;
+            }
+            return winWidth;
+        }
+        toastr.options = {
+            closeButton: false,
+            debug: false,
+            progressBar: false,
+            onclick: null,
+            showDuration: "300",
+            hideDuration: "1000",
+            timeOut: "2000",
+            extendedTimeOut: "1000",
+            positionClass: "toast-top-center",
+      };
+    </SCRIPT>
+
+</head>
+
+<body>
+<header>
+    <script>
+        var a_idx = 0;
+        jQuery(document).ready(function($) {
+            $("body").click(function (e) {
+                var a = new Array("❤富强❤", "❤民主❤", "❤文明❤", "❤和谐❤", "❤自由❤", "❤平等❤", "❤公正❤", "❤法治❤", "❤爱国❤", "❤敬业❤", "❤诚信❤", "❤友善❤");
+                var $i = $("<span></span>").text(a[a_idx]);
+                a_idx = (a_idx + 1) % a.length;
+                var x = e.pageX,
+                    y = e.pageY;
+                $i.css({
+                    "z-index": 1024,
+                    "top": y - 20,
+                    "left": x,
+                    "position": "absolute",
+                    "font-weight": "bold",
+                    "color": "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+                });
+                $("body").append($i);
+                $i.animate({
+                        "top": y - 180,
+                        "opacity": 0
+                    },
+                    1500,
+                    function () {
+                        $i.remove();
+                    });
+            });
+        });
+    </script>
+
+<div style="display: flex">
+{#    <div class="statistic-bar">#}
+{#        <div id="site-statistic"></div>#}
+{#        <p style="text-align: center">您是小站的第<span style="color: red"> {{ VISIT_COUNT }} </span>位访客，欢迎~</p>#}
+{#    </div>#}
+
+    {% block readNum %}
+
+    {% endblock readNum %}
+
+    <div class="blog" style="">
+        <div class="logo" data-scroll-reveal="enter right over 1s">
+            <a><b>未来可期!</b></a>
+            {% block login %}
+            {% endblock login %}
+        </div>
+        <div class="top-nav" data-scroll-reveal="enter bottom over 0.8s after 0.8s">
+            <a href="{% url 'homepage:FirstPage' %}">
+                <span>首页</span>
+            </a>
+            <a href="{% url 'homepage:about' %}" class="about-me-nav">
+                <span>关于我</span>
+            </a>
+
+            <a href="{% url 'homepage:program' %}">
+                <span>程序设计</span>
+            </a>
+
+            <a href="{% url 'tittleTattle:writeInformal' %}">
+                <span>随笔杂谈</span>
+            </a>
+
+            <a href="{% url 'comment:commentList' %}">
+                <span>留言</span>
+            </a>
+            <div class="inner-search form-group">
+                <form id="search_form" action="{% url "homepage:tagList" %}" method="post">
+                    <span><input type="text" class="form-control" name="search" id="name" placeholder=" 站内搜索" required></span>
+                </form>
+            </div>
+        </div>
+
+            {% block content %}
+            {% endblock %}
+        {% block nav_bar %}
+
+        {% endblock nav_bar %}
+{#        <aside class="rbox" style="float:right;display:block;">#}
+{#            <div class="tagsclous">#}
+{#                <h3 class="h_title">标签</h3>#}
+{#                <ul>#}
+{#                    <a>第一个标签</a>#}
+{#                    <a>第二个标签</a>#}
+{#                </ul>#}
+{#            </div>#}
+{#            <div></div>#}
+{#        </aside>#}
+    </div>
+
+</div>
+
+
+<div style="background-color:#2a2a32; color: white">
+    <div>
+        <div class="my-links">
+            <span>联系我：</span>
+            <a style="color: white" target="_blank">github</a>
+            <a style="color: white" target="_blank">gitee</a>
+            <a style="color: white" target="_blank">csdn</a>
+            <a style="color: white">QQ<img style="width:0; height: 0; position: absolute"></a>
+            <a style="color: white">微信<img style="width:0; height: 0; position: absolute"></a>
+        </div>
+        <div class="out-links">
+        </div>
+    </div>
+    <footer style="margin-bottom: 10px">
+{#        <div>#}
+{#            <img src="https://blog-1251916339.cos.ap-beijing.myqcloud.com/cover-pic/flag.png" style="width: 100px; height: 70px">#}
+{#        </div>#}
+        <div style="margin-top: 10px">
+            <a style="color: white" href="http://beian.miit.gov.cn">######</a>| 博客已运行<span class="run_time" style="color: white"></span>
+        </div>
+    </footer>
+</div>
+
+<div id="return-top" class="top_e">
+  <img src="{% static 'img/is_top.png' %}" width="60" id="img" >
+    <div style="width:60px;margin:auto;">
+        <p id='font' style="font-size:20px;margin-left:10px;display:none;">返回<br>顶部</p>
+    </div>
+</div>
+
+<script>
+    var width = $(window).width();
+    if (width > 1000 && width < 1700) {
+        $(".statistic-bar").width("17%");
+        $(".blog").width("66%");
+
+    } else if (width > 1700) {
+        $(".statistic-bar").width("25%");
+        $(".blog").width("50%");
+
+    }
+
+     $(document).ready(function(){
+         $.ajax({
+             type:'GET',
+             url: '/linking/list/',
+             success:function (data) {
+                 for (let i in data.links) {
+                     let link = data.links[i]
+                     $(".out-links").append('<a id=' + link.id + ' href="' + link.href + '" target="_blank">' + link.name + '</a>')
+                 }
+                 $('.out-links > a').unbind("click").click(function (){
+                     console.log($(this))
+                     $.ajax({
+                         type:'GET',
+                         url: '/linking/click/?id=' + $(this).attr("id"),
+                         success:function (data) {
+                         },
+                     });
+                     window.open($(this).attr("href"))
+                 })
+             },
+         });
+
+         $('.my-links > a').mouseenter(function (e) {
+            let top = $(this).offset().top;
+            let left = $(this).offset().left;
+            let text = $(this).text()
+            if (text === 'QQ' || text === "微信") {
+                top -= 140
+                left -= 45
+                $(this).children("img").offset({ top: top, left: left}).css("width", "130px").css('height', '130px').css("-webkit-transition-duration", ".1s")
+            }
+        }).mouseout(function(){
+             let text = $(this).text()
+            if (text === 'QQ' || text === "微信") {
+                $(this).children("img").css("width", "0").css('height', '0')
+            }
+        })
+     })
+
+    if (!(/msie [6|7|8|9]/i.test(navigator.userAgent))) {
+        (function () {
+            window.scrollReveal = new scrollReveal({reset: true});
+        })();
+    }
+
+    {#$(function(){#}
+    {#    var start_time = 0;#}
+    {#    $.ajax({#}
+    {#        type:'GET',#}
+    {#        url: '/starttime/',#}
+    {#        datatype:JSON,#}
+    {#        async: false,#}
+    {#        success:function (timestamp) {#}
+    {#            start_time = timestamp;#}
+    {#            update_run_time();#}
+    {#        },#}
+    {#        error:function () {#}
+    {#            console.log('ajax刷新分页数据失败！');#}
+    {#        }#}
+    {#    })#}
+    {##}
+    {#    function update_run_time() {#}
+    {#        var startDate = parseInt(start_time);#}
+    {#        var endDate = parseInt(Date.parse(new Date()) / 1000);#}
+    {##}
+    {#        var seconds = endDate - startDate;#}
+    {#        var years = parseInt(seconds / (24 * 3600 * 356));#}
+    {#        if (years > 0){#}
+    {#            seconds = parseInt(seconds % (years * 24 * 3600 * 356));#}
+    {#        } else {#}
+    {#            years = 0;#}
+    {#        }#}
+    {##}
+    {#        var days = parseInt(seconds / (24 * 3600));#}
+    {#        if (days > 0) {#}
+    {#            seconds = parseInt(seconds % (days * 24 * 3600));#}
+    {#        } else{#}
+    {#            days = 0;#}
+    {#        }#}
+    {##}
+    {#        var hours = parseInt(seconds / 3600);#}
+    {#        if (hours > 0){#}
+    {#            seconds = parseInt(seconds % (hours * 3600));#}
+    {#        } else {#}
+    {#            hours = 0;#}
+    {#        }#}
+    {##}
+    {#        var minutes = parseInt(seconds / 60);#}
+    {#        if (minutes > 0){#}
+	{#			seconds = parseInt(seconds % 60);#}
+    {#        } else {#}
+    {#            minutes = 0;#}
+    {#        }#}
+    {##}
+    {#        var run = years + " 年 " + days + " 天 " + hours + " 小时 " + minutes + " 分钟 " + seconds + " 秒";#}
+    {#        $(".run_time").html(run);#}
+    {#    }#}
+    {##}
+    {#    function showAuto(){#}
+    {#        if (start_time > 0){#}
+    {#            update_run_time();#}
+    {#        }#}
+    {#    }#}
+    {#    setInterval(showAuto, 1000);#}
+
+    // 控制按钮的显示和消失
+    $(window).scroll(function(){
+            if($(window).scrollTop()>300){
+                $('#return-top').fadeIn(300);
+                }
+             else{$('#return-top').fadeOut(200);}
+                 })
+    // 点击按钮，使得页面返回顶部
+            $("#return-top").click(function(){
+            scrollTo(0,0);
+            });
+            // 鼠标悬浮按钮之上，图片消失，文字显示
+            $(".top_e").mouseover(function(){
+                $("#img").hide();
+                $("#font").show();
+            })
+            //鼠标离开，文字消失，图片显示。
+            $(".top_e").mouseout(function(){
+                $("#font").hide();
+                $("#img").show();
+    })
+
+</script>
+
+<style type="text/css">
+
+       .top_e{
+            position:fixed;
+            right:10px;
+            bottom:40px;
+            background: rgba(36, 31, 45, 0.44);
+            border-radius:15px;
+            cursor:pointer;
+            display:none;
+            width:60px;
+            height:60px;
+            }
+       .top_e:hover
+       {
+         color:white;
+         background: rgba(12, 8, 8, 0.2);
+       }
+</style>
+{% block my_js %}
+
+{% endblock %}
+</header>
+</body>
+</html>

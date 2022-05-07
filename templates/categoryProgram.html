@@ -1,0 +1,106 @@
+{% extends "home.html" %}
+{% load static %}
+
+{% block mycss %}
+    {{ block.super }}
+    <link  href="{% static 'css/articleView.css' %}" rel="stylesheet" charset="UTF-8" >
+    <link  href="{% static 'css/program.css' %}" rel="stylesheet" charset="UTF-8" >
+    <script src="{% static 'js/base.js' %}"></script>
+{% endblock mycss %}
+
+{% block login %}
+    {% if user.is_authenticated %}
+        <div style="float:right">
+            <li class="dropdown" style="list-style-type:none">
+                <a href="#"  style="color: rgba(212,58,58,0.73);list-style-type:none;font-size: 20px" class="dropdown-toggle" data-toggle="dropdown" role="button" ><img src="{% static "img/admin.png" %}" title="{{ user.username }}"></a>
+                <ul class="dropdown-menu">
+                    <li><a href="{% url "personal:personal" %}">个人中心</a></li>
+                    <li><a href="{% url "login:out" %}">退出登录</a></li>
+                </ul>
+            </li>
+        </div>
+    {% else %}
+        <div style="float:right"><a href="{% url "login:Login" %}"  style="color: #333333;font-size: 16px"><b>登录/注册</b></a></div>
+    {% endif %}
+{% endblock login %}
+
+{% block readNum %}
+
+{% endblock readNum %}
+
+{% block content %}
+    <div class="blogs">
+        {% block contentCategory %}
+            <div class="weizhi">
+                    <ol class="breadcrumb" STYLE="background-color: rgba(248,248,248,0)">
+                        您当前的位置:
+                    <li><a href="{% url 'homepage:FirstPage'%}" style="color: #333333">首页</a></li>
+        {#            &nbsp;>&nbsp;#}
+                    <li><a href="{% url 'homepage:program'%}" style="color: #333333">程序设计</a></li>
+                    </ol>
+            </div>
+
+            <div class="rnav">
+                    {% for n in category %}
+                    <li>
+                        <a id="category-btn" href="{% url 'homepage:programCategory' n.name %}">{{ n.name }} ({{ n.article_count }})</a>
+                    </li>
+                    {% endfor %}
+
+             </div>
+        {% endblock contentCategory %}
+          <ul>
+                {% for article in articles %}
+                    <li class="blogs_list" target="_blank" style="background: rgba(51,51,51,0.06)">
+                        <a href="{% url 'homepage:content' article.id %}">
+                            <em>{{ article.category }}</em>
+                            <i><img src="{{ article.category.avatar.url }}" alt="avatar" style="max-width:100%;"></i>
+                            <h2 style="color: #333333">{{ article.title }}</h2>
+                            <p>{{ article.abstract }}</p>
+                            <div class="blogs_base">
+                                <span class="blogs_time" title="修改时间">{{ article.alter_time }}</span>
+                                 <span class="blogs_onclick" title="浏览量">{{ article.get_read_num }}</span>
+                            </div>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <ul class="pagination" style="justify-content: center;flex-direction: row;display: flex;">
+                     {% if articles.has_previous %}
+                           <li class="page-item"><a class="page-link" href="?page={{ articles.previous_page_number }}">上一页</a></li>
+                     {% else %}
+                           <li class="page-item disabled"><span class="page-link">上一页</span></li>
+                     {% endif %}
+
+                    {% for i in articles.paginator.page_range %}
+                        {% if articles.number == i %}
+                                <li class="page-item active"><span class="page-link"> {{ i }} <span class="sr-only">(current)</span></span></li>
+                        {% else %}
+                                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+
+                {% if articles.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ articles.next_page_number }}">下一页</a></li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">下一页</span></li>
+                {% endif %}
+
+            </ul>
+    </div>
+
+{% endblock content %}
+
+{% block nav_bar %}
+   <aside class="rbox" style="float:right;display:block;">
+        <div class="tagsclous" style="background:rgba(51,51,51,0.06) ">
+            <h4 class="h_title" style="color: rgba(187,102,34,0.85)"><b>标签</b></h4>
+                <ul>
+                    {% for n in tags %}
+                      <a href="{% url "homepage:tagList" %}?tag={{ n }}" >{{ n }}</a>
+                    {% endfor %}
+                </ul>
+        </div>
+   </aside>
+{% endblock nav_bar %}

@@ -1,0 +1,288 @@
+{% extends "home.html" %}
+{% load static %}
+{% load date_filter %}
+
+{% block mycss %}
+    {{ block.super }}
+    <meta charset="UTF-8" >
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+    <link href="{% static 'css/msgBoard.css' %}" rel="stylesheet" charset="UTF-8"></link>
+    <script type="text/javascript" src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/msgBoard.js' %}"></script>
+{% endblock mycss %}
+
+{% block login %}
+    {% if user.is_authenticated %}
+         <div style="float:right">
+            <li class="dropdown" style="list-style-type:none">
+                <a href="#"  style="color: rgba(212,58,58,0.73);list-style-type:none;font-size: 20px" class="dropdown-toggle" data-toggle="dropdown" role="button" ><img src="{% static "img/admin.png" %}" title="{{ user.username }}"></a>
+                <ul class="dropdown-menu">
+                    <li><a href="{% url "personal:personal" %}">个人中心</a></li>
+                    <li><a href="{% url "login:out" %}">退出登录</a></li>
+                </ul>
+            </li>
+{#            <li style="list-style-type:none;"><span>用户名:</span><span style="color: rgba(212,58,58,0.73);margin-left: 5px;font-size: 20px"><a href="{% url "personal:personal" %}" style="color: rgba(212,58,58,0.73) ">{{ user.username }}</a></span></li>#}
+{#            <li style="background: #39b3d7;list-style-type:none;text-align: center;"><a href="{% url "login:out" %}" style="color: #ebebeb">退出登录</a></li>#}
+        </div>
+    {% else %}
+        <div style="text-align:center;line-height: 28px;width:100px;height:30px;float:right;border: 0.5px ridge rgba(20,124,203,0.85);"><a href="{% url "login:Login" %}" style="color: rgba(20,89,210,0.68);font-size: 16px"><b>登录/注册</b></a></div>
+    {% endif %}
+{% endblock login %}
+
+{% block content %}
+                    <div style="margin-top: 1em;padding: 1em;width:auto; ">
+                        <form id="comment_form" action="{% url 'comment:updateComment' %}" method="POST"  style="overflow: hidden;">
+                            <div id="reply_content_container" style="display:none" >
+                                <div><div><h6>回复:</h6></div>
+                                    <div id="reply_content" style="color: rgba(197,54,49,0.91)"></div>
+                                </div>
+                            </div>
+                            {% for com in reviewRecords_form %}
+                                <div class="form-group" >
+                                    {{ com }}
+                                </div>
+                            {% endfor %}
+                            <span id="comment_error" class="text-danger;pull-left" style="float:left"></span>
+                            <div class="form-group">
+                                    <input type="submit" class="btn btn-info" values="提交"  >
+                            </div>
+                        </form>
+                    </div>
+	<!-- 显示留言的主体 -->
+    <h3 style="border-bottom: 1px solid #ccc;padding-bottom: 0.4px">留言列表</h3>
+	<div  class="show" id="comment_list">
+            {% for comment in commentDetail %}
+                <div id="root_{{ comment.id }}">
+                    <div   class="show-content" >
+                        <div style="float: left;width: 15%">
+                            <img class="vuser" style="width:57.8px;height:60px;margin-right:.75em;border-radius:50%" aria-hidden="true" src="https://gravatar.cdn.iszy.cc/avatar/01ae708cd3f38ad00b696ad9adbc5419?d=mm">
+                        </div>
+                            <div class="vcard" style="flex:1;padding-bottom: .5em;float:left;width:80%">
+                                <div class="show-name">
+                                    <span>{{ comment.name }}</span>
+                                    <span style="float: right;font-size: 12px;color: #808080;">{{ comment.create_time }}</span>
+                                </div>
+                                <div id="content_{{ comment.id }}" class="show-text">
+                                    {{ comment.content|safe }}
+                                </div>
+    {#                            <div class="show-time">{{ comment.create_time }}</div>#}
+                                <div class="gbook_foot">
+{#                                    <div class="gbook_tool" style="font-size:12px;margin-right: 5px;float: right;height:auto;text-decoration:underline">#}
+{#                                       <span>踩({{ comment.cai }})</span>#}
+{#                                    </div>#}
+                                    <div  id="cai{{ comment.id }}" class="cai{{ comment.id }}" style="cursor: hand;font-size:12px;margin-right: 5px;float: right;height:auto;text-decoration:underline" onclick="caiLikeChange('{% get_content_type comment %}',{{ comment.id }})">
+                                         <span>踩(<h7 id="cai{{ comment.id }}_like">{% cai_likes_sum comment %}</h7>)</span>
+                                     </div>
+                                   <div id="ding{{ comment.id }}" class="ding{{ comment.id }}" style="cursor: hand;font-size:12px;margin-right: 40px;float: right;height:auto;text-decoration:underline" onclick="dingLikeChange('{% get_content_type comment %}',{{ comment.id }})">顶(<h7 id="ding{{ comment.id }}_like">{% likes_sum comment %}</h7>)</div>
+                                    <div class="reply_btn" style="font-size:12px;margin-right: 40px;float: right;height:auto;text-decoration:underline"><a style="color: #333333" href="javascript:reply({{ comment.id }})">回复</a></div>
+                                </div>
+                                <div class="show-close">x</div>
+                            </div>
+                    </div>
+
+                    <div style="margin-left: 2em">
+                        {% for reply in comment.root_comment.all %}
+                             <div class="show-content">
+                                <div style="float: left;width: 15%">
+                                    <img class="vuser" style="width:57.8px;height:60px;margin-right:.75em;border-radius:50%" aria-hidden="true" src="https://gravatar.cdn.iszy.cc/avatar/01ae708cd3f38ad00b696ad9adbc5419?d=mm">
+                                </div>
+                                    <div class="vcard" style="flex:1;padding-bottom: .5em;float:left;width:80%">
+                                        <div class="show-name">
+                                            <span>{{ reply.name }} <strong style="color: #d43f3a">回复了</strong> {{ reply.parent.name }} </span>
+                                            <span style="float: right;font-size: 12px;color: #808080;">{{ reply.create_time }}</span>
+                                        </div>
+                                        <div id="content_{{ reply.id }}" class="show-text">
+                                            {{ reply.content|safe }}
+                                        </div>
+            {#                            <div class="show-time">{{ comment.create_time }}</div>#}
+                                        <div class="gbook_foot">
+                                            <div  id="cai{{ reply.id }}" class="cai{{ reply.id }}" style="cursor: hand;font-size:12px;margin-right: 5px;float: right;height:auto;text-decoration:underline" onclick="caiLikeChange('{% get_content_type reply %}',{{ reply.id }})">
+                                                  <span>踩(<h7 id="cai{{ reply.id }}_like">{% cai_likes_sum reply %}</h7>)</span>
+                                            </div>
+                                            <div id="ding{{ reply.id }}" class="ding{{ reply.id }}" style="cursor: hand;font-size:12px;margin-right: 40px;float: right;height:auto;text-decoration:underline" onclick="dingLikeChange('{% get_content_type reply %}',{{ reply.id }})">顶(<h7 id="ding{{ reply.id }}_like">{% likes_sum reply %}</h7>)</div>
+                                            <div class="reply_btn" style="font-size:12px;margin-right: 40px;float: right;height:auto;text-decoration:underline"><a style="color: #333333" href="javascript:reply({{ reply.id }})">回复</a></div>
+                                        </div>
+                                        <div class="show-close">x</div>
+                                    </div>
+                            </div>
+
+                        {% endfor %}
+                    </div>
+                </div>
+
+                {% empty %}
+                    <span id="comment_empty"><h5>暂无留言，快来留言吧~</h5></span>
+            {% endfor %}
+	</div>
+</div>
+
+<script type="text/javascript">
+        $("#comment_form").submit(function(){
+            $("#comment_error").text('');
+            if(CKEDITOR.instances['id_content'].document.getBody().getText().trim()==''){
+                $("#comment_error").text("评论内容不能为空");
+                return false;
+            }
+            CKEDITOR.instances['id_content'].updateElement();
+            $.ajax({
+                url:"{% url 'comment:updateComment' %}",
+                type:"POST",
+                data:$("#comment_form").serialize(),
+                cache:false,
+                success:function(data){
+                    if(data['status']=='success') {
+                         var comment_html = ' <div id="root_'+data["id"]+'">'+'<div class="show-content" >'+
+                                                         '<div style="float: left;width: 15%">' +
+                                                            '<img class="vuser" style="width:57.8px;height:60px;margin-right:.75em;border-radius:50%" aria-hidden="true" src="https://gravatar.cdn.iszy.cc/avatar/01ae708cd3f38ad00b696ad9adbc5419?d=mm">' +
+                                                        '</div>' +
+                                                         '<div class="vcard" style="flex:1;padding-bottom: .5em;float:left;width:80%">' +
+                                                             '<div class="show-name">' +
+                                                                '<span>' + data["name"] + '</span>' +
+                                                                '<span style="float: right;font-size: 12px;color: #808080;">' +
+                                                                        data["create_time"] +
+                                                                '</span>' +
+                                                             '</div>' +
+
+                                                        '<div id="content_'+data["id"]+'" class="show-text">' +
+                                                            data["content"] +
+                                                        '</div>' +
+                                                        '<div class="gbook_foot">' +
+                                                            '<div class="gbook_tool" style="font-size:12px;margin-right: 5px;float: right;height:auto;text-decoration:underline">' +
+                                                                 '<span>' + '踩(' + data["cai"] + ')' + '</span>' +
+                                                            '</div>' +
+                                                            '<div class="gbook_tool" style="font-size:12px;margin-right: 40px;float: right;height:auto;text-decoration:underline">' +
+                                                                 '顶(' + data["ding"] + ')</div>' +
+                                                            '<div class="reply_btn" style="font-size:12px;margin-right: 40px;float: right;height:auto;text-decoration:underline"><a href="javascript:reply(' + data["id"] + ')">回复</a></div>'
+                                                        '</div>' +
+                                                        '<div class="show-close">x</div>' +
+                                                     '</div>'+
+                                                    '</div>'+
+                                            '</div>';
+
+                         var reply_html='<div style="margin-left: 2em">'+' <div class="show-content">'+
+                                                 '<div style="float: left;width: 15%">'+
+                                                    '<img class="vuser" style="width:57.8px;height:60px;margin-right:.75em;border-radius:50%" aria-hidden="true" src="https://gravatar.cdn.iszy.cc/avatar/01ae708cd3f38ad00b696ad9adbc5419?d=mm">'+
+                                                 '</div>'+
+                                                 '<div class="vcard" style="flex:1;padding-bottom: .5em;float:left;width:80%">'+
+                                                    '<div class="show-name">'+
+                                                        '<span>'+data["name"]+' <strong style="color: #d43f3a">回复了</strong> '+data["parent_name"]+'</span>'+
+                                                        '<span style="float: right;font-size: 12px;color: #808080;">'+data["create_time"]+'</span>'+
+                                                    '</div>'+
+
+                                               '<div id="content_'+data["id"]+'" class="show-text">' +
+                                                            data["content"] +
+                                                '</div>' +
+                                               '<div class="gbook_foot">'+
+                                                 ' <div class="gbook_tool" style="font-size:12px;margin-right: 5px;float: right;height:auto;text-decoration:underline">'+
+                                                        '<span>踩('+data["cai"]+')</span>'+
+                                                  '</div>'+
+                                                    ' <div class="gbook_tool" style="font-size:12px;margin-right: 40px;float: right;height:auto;text-decoration:underline">顶('+data["ding"]+')</div>'+
+                                                    ' <div class="reply_btn" style="font-size:12px;margin-right: 40px;float: right;height:auto;text-decoration:underline"><a href="javascript:reply('+ data["id"] +')">回复</a></div>'+
+                                               '</div>'+
+                                                '<div class="show-close">x</div>'+
+                                             '</div>'+
+                                         '</div>';
+
+                         if($('#reply_comment_id').val()=='0'){
+                            $('#comment_list').prepend(comment_html);
+
+                         }
+                         else{
+                                $('#root_'+data['root_id']).append(reply_html);
+
+                         }
+                        CKEDITOR.instances['id_content'].setData('');
+                         $('#comment_name').val("")
+                         $('#reply_content_container').hide();
+                         $('#reply_comment_id').val('0');
+                         $('#comment_empty').remove();
+                         {#$(#no_comment).remove();#}
+
+                    }
+                    else{
+                        $('#comment_error').text(data['message']);
+                    }
+                }
+            });
+            return false
+        })
+
+        function reply(reply_comment_id){
+            {#设置值#}
+            $("#reply_comment_id").val(reply_comment_id);
+            var html=$("#content_"+reply_comment_id).html();
+            console.log(html)
+            $('#reply_content').html(html);
+            $('#reply_content_container').show();
+
+            $('html,body').animate({scrollTop: $('#comment_form').offset().top-40}, 300,function (){
+                CKEDITOR.instances['id_content'].focus();
+            });
+        }
+
+        function dingLikeChange(content_type,object_id){
+            if (document.getElementById("ding"+object_id).getAttribute('class')=="ding"+object_id){
+                document.getElementById("ding"+object_id).className='dingx'+object_id;
+            }else{
+                document.getElementById("ding"+object_id).className="ding"+object_id;
+            }
+            var is_like=document.getElementsByClassName('dingx'+object_id).length == 1;
+            $.ajax({
+               url: '{% url "likes:like_change" %}',
+               type:'GET',
+               data:{
+                   content_type:content_type,
+                   object_id:object_id,
+                   is_like:is_like
+                },
+               cache:false,
+               success:function (data){
+                   console.log(data)
+                   if(data['status']=='success'){
+                       $('#ding'+object_id+'_like').text(data['liked_num']);
+                   }else{
+                       alter(data['message']);
+                   }
+               },
+               error:function (xhr){
+                   console.log(xhr)
+               }
+            });
+        }
+
+        function caiLikeChange(content_type,object_id){
+            if (document.getElementById("cai"+object_id).getAttribute('class')=="cai"+object_id){
+                document.getElementById("cai"+object_id).className='caix'+object_id;
+            }else{
+                document.getElementById("cai"+object_id).className="cai"+object_id;
+            }
+            var is_like=document.getElementsByClassName('caix'+object_id).length == 1;
+            $.ajax({
+               url: '{% url "likes:cai_like_change" %}',
+               type:'GET',
+               data:{
+                   content_type:content_type,
+                   object_id:object_id,
+                   is_like:is_like
+                },
+               cache:false,
+               success:function (data){
+                   console.log(data)
+                   if(data['status']=='success'){
+                       $('#cai'+object_id+'_like').text(data['liked_num']);
+                   }else{
+                       alter(data['message']);
+                   }
+               },
+               error:function (xhr){
+                   console.log(xhr)
+               }
+            });
+        }
+
+
+</script>
+
+{% endblock content %}

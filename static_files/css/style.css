@@ -1,0 +1,94 @@
+@charset "utf-8";
+body { /*整个页面的属性设定*/
+    background-color: #CCCCCC; /*背景色*/
+    font-family: Geneva, sans-serif; /*可用字体*/
+    margin: 0px auto; /*页边空白*/
+    max-width: 80%;
+    border: solid; /*边缘立体*/
+    border-color: #FFFFFF; /*边缘颜色*/
+}
+
+h2 { /*设定整个body内的h2的共同属性*/
+    text-align: center; /*文本居中*/
+}
+.logo {
+    margin-left: 24%;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.blog {
+    margin: 30px;
+    overflow: hidden;
+}
+
+.top-nav a {
+    font-size: 18px;
+    font-weight: bolder;
+    color: #8a6d3b;
+}
+
+/*header { !*整个body页面的header适用*!*/
+/*    background-color: #92f43145;*/
+/*    color: #FFFFFF;*/
+/*    text-align: center;*/
+/*}*/
+
+/*article { !*整个body页面的article适用*!*/
+/*    background-color: #FFFFFF;*/
+/*}*/
+/*nav,article,aside { !*共同属性*!*/
+/*    margin: 10px;*/
+/*    padding: 10px;*/
+/*    display: block;*/
+/*}*/
+/*header nav { !*header#page_header nav的属性*!*/
+/*    list-style: none;*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*}*/
+/*header nav ul li { !*header#page_header nav ul li属性*!*/
+/*    padding: 0;*/
+/*    margin: 0 20px 0 0;*/
+/*    display: inline;*/
+/*}*/
+
+/*section#article { !*#posts 的section属性*!*/
+/*    display: block;*/
+/*    float: left;*/
+/*    width: 70%;*/
+/*    height: auto;*/
+/*    background-color: #21a27a;*/
+/*}*/
+
+/*section#article footer { !*section#posts article footer属性*!*/
+
+/*    background-color: #039;*/
+/*    clear: both;*/
+/*    height: 50px;*/
+/*    display: block;*/
+/*    color: #FFFFFF;*/
+/*    text-align: center;*/
+/*    padding: 15px;*/
+/*}*/
+
+/*section#navigation_bar { !*section#sidebar属性*!*/
+/*    background-color: #eee;*/
+/*    display: block;*/
+/*    float: right;*/
+/*    width: 25%;*/
+/*    height: auto;*/
+/*    background-color: #699;*/
+/*    margin-right: 15px;*/
+/*}*/
+
+/*footer#page_footer { !*footer#page_footer属性*!*/
+/*    display: block;*/
+/*    clear: both;*/
+/*    width: 100%;*/
+/*    margin-top: 15px;*/
+/*    display: block;*/
+/*    color: #FFFFFF;*/
+/*    text-align: center;*/
+/*    background-color: #06C;*/
+/*}*/
