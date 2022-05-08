@@ -31,7 +31,7 @@ class ArticleDetail(models.Model,ReadNumExpandMethod):
     category=models.ForeignKey("ArticleCategory",null=True,on_delete=models.SET_NULL,verbose_name="文章类型")
 
     class Meta:
-        db_table="db_blog_Article"
+        db_table="db_blog_article"
         verbose_name="文章数据表"
         ordering=["-alter_time"]
 
@@ -59,7 +59,7 @@ class ArticleCategory(models.Model):
     )
 
     class Meta:
-        db_table="db_blog_ArticleCategory"
+        db_table="db_blog_articlecategory"
         verbose_name="文章类型"
         ordering = ["-alter_time"]
     def __str__(self):

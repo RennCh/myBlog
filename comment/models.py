@@ -20,7 +20,7 @@ class reviewRecords(models.Model):
     root=models.ForeignKey('self', null=True,related_name="root_comment", on_delete=models.CASCADE)
 
     class Meta:
-        db_table = "db_reviewRecords"
+        db_table = "db_reviewrecords"
         verbose_name = "评论记录"
         ordering = ["create_time"]
 
@@ -62,7 +62,7 @@ class G_reviewRecords(models.Model):
     root=models.ForeignKey('self', null=True,related_name="root_comment", on_delete=models.CASCADE)
 
     class Meta:
-        db_table = "db_G_reviewRecords"
+        db_table = "db_g_reviewrecords"
         verbose_name = "通用_评论记录"
         ordering = ["create_time"]
 
