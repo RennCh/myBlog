@@ -11,6 +11,10 @@ class ReadNum(models.Model):
     object_id=models.PositiveIntegerField()
     content_object=GenericForeignKey('content_type','object_id')
 
+    class Meta:
+        db_table = "db_readnum"
+        verbose_name = "阅读量"
+
 class ReadDetail(models.Model):    #不能直接继承 ReadNum  在迁移时会报错
     date=models.DateField(default=timezone.now())
     read_num=models.IntegerField(default=0)
@@ -18,6 +22,9 @@ class ReadDetail(models.Model):    #不能直接继承 ReadNum  在迁移时会�
     content_type=models.ForeignKey(ContentType,on_delete=models.CASCADE)
     object_id=models.PositiveIntegerField()
     content_object=GenericForeignKey('content_type','object_id')
+
+    class Meta:
+        db_table = "db_readdetail"
 
 class ReadNumExpandMethod():
     def get_read_num(self):

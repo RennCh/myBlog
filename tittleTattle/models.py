@@ -11,7 +11,7 @@ class dailyLog(models.Model):
     page_view = models.PositiveIntegerField(default=0, verbose_name="阅读量")
     year= models.IntegerField(verbose_name="年份")
     class Meta:
-        db_table="db_dailLog"
+        db_table="db_daillog"
         verbose_name="随笔日常记录"
         ordering=["-create_time"]
 

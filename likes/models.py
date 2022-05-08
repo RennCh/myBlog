@@ -12,6 +12,9 @@ class LikeNum(models.Model):
     content_type=models.ForeignKey(ContentType,on_delete=models.CASCADE)
     object_id=models.PositiveIntegerField()
     content_object=GenericForeignKey('content_type','object_id')
+    class Meta:
+        db_table="db_blog_likenum"
+        verbose_name="点赞数"
 
 class LikeNum_cai(models.Model):
     like_num=models.IntegerField(default=0)
@@ -20,4 +23,8 @@ class LikeNum_cai(models.Model):
     content_type=models.ForeignKey(ContentType,on_delete=models.CASCADE)
     object_id=models.PositiveIntegerField()
     content_object=GenericForeignKey('content_type','object_id')
+
+    class Meta:
+        db_table="db_blog_cainum"
+        verbose_name="点踩数"
 
