@@ -90,12 +90,17 @@ vacuum = True
 
 
 6、启动uwsgi
-uwsgi --ini /home/mysite_uwsgi/mysite.ini
+uwsgi --ini /home/myBlog_uwsgi/myBlog.ini
 
 
 7、重启nginx
 service nginx restart
 
+nginx测试命令：nginx -t
+查看uwsgi进程：ps -aux | grep uwsgi
+正常关闭uwsgi进程: uwsgi --stop /home/myBlog_uwsgi/master.pid
+重新加载uwsgi: uwsgi --reload /home/myBlog_uwsgi/master.pid
+强制关闭全部uwsgi进程：ps -aux | grep uwsgi |awk '{print $2}'|xargs kill -9
 
 =======================
 参考：https://github.com/HaddyYang/django2.0-course.git
