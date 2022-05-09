@@ -109,7 +109,7 @@
 
     <div class="blog" style="">
         <div class="logo" data-scroll-reveal="enter right over 1s">
-            <a><b>未来可期!</b></a>
+            <a><b>流年笑掷，未来可期!</b></a>
             {% block login %}
             {% endblock login %}
         </div>
@@ -163,11 +163,10 @@
     <div>
         <div class="my-links">
             <span>联系我：</span>
-            <a style="color: white" target="_blank">github</a>
-            <a style="color: white" target="_blank">gitee</a>
-            <a style="color: white" target="_blank">csdn</a>
-            <a style="color: white">QQ<img style="width:0; height: 0; position: absolute"></a>
-            <a style="color: white">微信<img style="width:0; height: 0; position: absolute"></a>
+            <a style="color: white" href="https://github.com/RennCh" target="_blank">github</a>
+            <a style="color: white" href="https://blog.csdn.net/qq_41365630?type=blog" target="_blank">csdn</a>
+            <a style="color: white" href="mailto:1290681237@qq.com">邮箱</a>
+            <a style="color: white">QQ<img style="width:0; height: 0; position: absolute" src="{% static "/img/qq.jpg" %}"></a>
         </div>
         <div class="out-links">
         </div>
@@ -177,7 +176,9 @@
 {#            <img src="https://blog-1251916339.cos.ap-beijing.myqcloud.com/cover-pic/flag.png" style="width: 100px; height: 70px">#}
 {#        </div>#}
         <div style="margin-top: 10px">
-            <a style="color: white" href="http://beian.miit.gov.cn">######</a>| 博客已运行<span class="run_time" style="color: white"></span>
+            <a style="color: white" href="http://beian.miit.gov.cn"></a><span id="runtime_span"></span><script type="text/javascript">function show_runtime(){window.setTimeout("show_runtime()",1000);X=new Date("04/08/2022 10:52:50");Y=new Date();T=(Y.getTime()-X.getTime());M=24*60*60*1000;a=T/M;A=Math.floor(a);b=(a-A)*24;B=Math.floor(b);c=(b-B)*60;C=Math.floor((b-B)*60);D=Math.floor((c-C)*60);runtime_span.innerHTML="博客已运行:"+A+"天"+B+"小时"+C+"分"+D+"秒"}show_runtime();</script>
+
+
         </div>
     </footer>
 </div>
@@ -246,65 +247,6 @@
         })();
     }
 
-    {#$(function(){#}
-    {#    var start_time = 0;#}
-    {#    $.ajax({#}
-    {#        type:'GET',#}
-    {#        url: '/starttime/',#}
-    {#        datatype:JSON,#}
-    {#        async: false,#}
-    {#        success:function (timestamp) {#}
-    {#            start_time = timestamp;#}
-    {#            update_run_time();#}
-    {#        },#}
-    {#        error:function () {#}
-    {#            console.log('ajax刷新分页数据失败！');#}
-    {#        }#}
-    {#    })#}
-    {##}
-    {#    function update_run_time() {#}
-    {#        var startDate = parseInt(start_time);#}
-    {#        var endDate = parseInt(Date.parse(new Date()) / 1000);#}
-    {##}
-    {#        var seconds = endDate - startDate;#}
-    {#        var years = parseInt(seconds / (24 * 3600 * 356));#}
-    {#        if (years > 0){#}
-    {#            seconds = parseInt(seconds % (years * 24 * 3600 * 356));#}
-    {#        } else {#}
-    {#            years = 0;#}
-    {#        }#}
-    {##}
-    {#        var days = parseInt(seconds / (24 * 3600));#}
-    {#        if (days > 0) {#}
-    {#            seconds = parseInt(seconds % (days * 24 * 3600));#}
-    {#        } else{#}
-    {#            days = 0;#}
-    {#        }#}
-    {##}
-    {#        var hours = parseInt(seconds / 3600);#}
-    {#        if (hours > 0){#}
-    {#            seconds = parseInt(seconds % (hours * 3600));#}
-    {#        } else {#}
-    {#            hours = 0;#}
-    {#        }#}
-    {##}
-    {#        var minutes = parseInt(seconds / 60);#}
-    {#        if (minutes > 0){#}
-	{#			seconds = parseInt(seconds % 60);#}
-    {#        } else {#}
-    {#            minutes = 0;#}
-    {#        }#}
-    {##}
-    {#        var run = years + " 年 " + days + " 天 " + hours + " 小时 " + minutes + " 分钟 " + seconds + " 秒";#}
-    {#        $(".run_time").html(run);#}
-    {#    }#}
-    {##}
-    {#    function showAuto(){#}
-    {#        if (start_time > 0){#}
-    {#            update_run_time();#}
-    {#        }#}
-    {#    }#}
-    {#    setInterval(showAuto, 1000);#}
 
     // 控制按钮的显示和消失
     $(window).scroll(function(){
@@ -329,6 +271,34 @@
     })
 
 </script>
+
+
+<script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>
+
+<script>
+    L2Dwidget.init({
+        "model": {
+            jsonPath: "https://unpkg.com/live2d-widget-model-wanko@1.0.5/assets/wanko.model.json",
+            "scale": 2
+        },
+        "display": {
+            "position": "left",
+            "width": 150,
+            "height": 250,
+            "hOffset": 0,
+            "vOffset": -20
+        },
+        "mobile": {
+            "show": true,
+            "scale": 0.5
+        },
+        "react": {
+            "opacityDefault": 0.7,
+            "opacityOnHover": 0.2
+        }
+    });
+</script>
+
 
 <style type="text/css">
 
