@@ -56,6 +56,7 @@ class ArticleCategory(models.Model):
         processors=[ResizeToFit(width=400)],
         format='JPEG',
         options={'quality': 100},
+        default="default.jpg"
     )
 
     class Meta:

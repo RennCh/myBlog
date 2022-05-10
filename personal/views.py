@@ -115,7 +115,9 @@ def articleCategory(request):
     data={}
     print(request.POST.get('name'))
     articleCategory=ArticleCategory.objects.get(name=request.POST.get('name'))
-    articleCategory.avatar=request.FILES.get('avatar')
+    if request.FILES.get('avatar'):
+        articleCategory.avatar=request.FILES.get('avatar')
+
     articleCategory.save()
     messages.error(request,"图片上传成功")
     return HttpResponseRedirect(reverse("personal:personal"))
