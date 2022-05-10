@@ -66,3 +66,6 @@ a2ensite mysite.conf
 6、测试并重启apache
 apache2ctl configtest
 apache2ctl restart
+
+7、端口占用查询
+ netstat -ntlp 
